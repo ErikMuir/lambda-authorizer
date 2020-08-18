@@ -23,6 +23,9 @@
     "url": "https://github.com/ErikMuir/lambda-authorizer/issues"
   },
   "homepage": "https://github.com/ErikMuir/lambda-authorizer#readme",
+  "dependencies": {
+    "@erikmuir/lambda-utils": "^0.1.3"
+  },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
