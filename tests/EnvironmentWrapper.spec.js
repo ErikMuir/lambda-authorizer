@@ -4,26 +4,26 @@ describe('EnvironmentWrapper', () => {
   const env = new EnvironmentWrapper();
 
   test('issuer', () => {
-    expect(env.issuer).not.toBeDefined();
-    process.env = { ...process.env, ISSUER: 'foobar' };
-    expect(env.issuer).toBe('foobar');
+    process.env = { ...process.env, ISSUER: 'foobar-issuer' };
+
+    expect(env.issuer).toBe('foobar-issuer');
   });
 
   test('audience', () => {
-    expect(env.audience).not.toBeDefined();
-    process.env = { ...process.env, AUDIENCE: 'foobar' };
-    expect(env.audience).toBe('foobar');
+    process.env = { ...process.env, AUDIENCE: 'foobar-audience' };
+
+    expect(env.audience).toBe('foobar-audience');
   });
 
   test('jwks', () => {
-    expect(env.jwks).not.toBeDefined();
-    process.env = { ...process.env, JWKS: 'foobar' };
-    expect(env.jwks).toBe('foobar');
+    process.env = { ...process.env, JWKS: 'foobar-jwks' };
+
+    expect(env.jwks).toBe('foobar-jwks');
   });
 
   test('jwksUri', () => {
-    expect(env.jwksUri).not.toBeDefined();
-    process.env = { ...process.env, JWKS_URI: 'foobar' };
-    expect(env.jwksUri).toBe('foobar');
+    process.env = { ...process.env, JWKS_URI: 'foobar-jwks-uri' };
+    
+    expect(env.jwksUri).toBe('foobar-jwks-uri');
   });
 });

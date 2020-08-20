@@ -1,4 +1,6 @@
-const { LogEnv, LambdaLogger } = require('@erikmuir/lambda-utils');
+import { LogEnv, LambdaLogger } from '@erikmuir/lambda-utils';
+import { authorize } from './Services/AuthorizerFacade';
+import UnauthorizedException from './Exceptions/UnauthorizedException';
 
 exports.handler = async function (event, context) {
   LogEnv.lambdaEvent = event;
@@ -6,14 +8,15 @@ exports.handler = async function (event, context) {
   const logger = new LambdaLogger('index');
 
   try {
-    const response = {}; // TODO : call authorizerFacade.authorize()
+    const request = event;
+    const response = authorize(request);
 
-    logger.info('Authorizer response', responseBody);
+    logger.info('Authorizer response', response);
 
     return response;
   } catch (e) {
     if (e instanceof UnauthorizedException) throw e;
-
+    
     logger.error(`Unexpected error occurred: ${e.message}`, e);
     throw new UnauthorizedException();
   }
