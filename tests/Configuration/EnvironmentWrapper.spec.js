@@ -1,4 +1,4 @@
-import EnvironmentWrapper from '../src/Configuration/EnvironmentWrapper';
+import EnvironmentWrapper from '../../src/Configuration/EnvironmentWrapper';
 
 describe('EnvironmentWrapper', () => {
   const env = new EnvironmentWrapper();
