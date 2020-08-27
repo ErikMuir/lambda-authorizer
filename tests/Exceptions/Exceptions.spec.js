@@ -1,6 +1,6 @@
 import BaseException from '../../src/Exceptions/BaseException';
 import ApiGatewayArnException from '../../src/Exceptions/ApiGatewayArnException';
-import AuthPolicyBuilderException from '../../src/Exceptions/AuthPolicyBuilderException';
+import PolicyBuilderException from '../../src/Exceptions/PolicyBuilderException';
 import ClaimsPrincipalException from '../../src/Exceptions/ClaimsPrincipalException';
 import JsonWebKeyClientException from '../../src/Exceptions/JsonWebKeyClientException';
 import JsonWebKeyServiceException from '../../src/Exceptions/JsonWebKeyServiceException';
@@ -39,19 +39,19 @@ describe('Exceptions', () => {
     expect(err.stack).toBeDefined();
   });
 
-  test('AuthPolicyBuilderException', () => {
-    const err = new AuthPolicyBuilderException('foobar');
+  test('PolicyBuilderException', () => {
+    const err = new PolicyBuilderException('foobar');
 
-    expect(err instanceof AuthPolicyBuilderException).toBe(true);
-    expect(AuthPolicyBuilderException.prototype.isPrototypeOf(err)).toBe(true);
+    expect(err instanceof PolicyBuilderException).toBe(true);
+    expect(PolicyBuilderException.prototype.isPrototypeOf(err)).toBe(true);
     expect(err instanceof BaseException).toBe(true);
     expect(BaseException.prototype.isPrototypeOf(err)).toBe(true);
     expect(err instanceof Error).toBe(true);
     expect(Error.prototype.isPrototypeOf(err)).toBe(true);
-    expect(err.constructor.name).toBe('AuthPolicyBuilderException');
-    expect(err.name).toBe('AuthPolicyBuilderException');
+    expect(err.constructor.name).toBe('PolicyBuilderException');
+    expect(err.name).toBe('PolicyBuilderException');
     expect(err.message).toBe('foobar');
-    expect(err.toString()).toBe('AuthPolicyBuilderException: foobar');
+    expect(err.toString()).toBe('PolicyBuilderException: foobar');
     expect(err.stack).toBeDefined();
   });
 
