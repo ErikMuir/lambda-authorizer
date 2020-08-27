@@ -56,7 +56,7 @@ describe('index', () => {
       }
     });
 
-    test('when any other exception is thrown, then throws new unauthorized exception', async () => {
+    test('when a non-unauthorized exception is thrown, then throws new unauthorized exception', async () => {
       const exception = new Error();
       authorize.mockImplementation(() => {
         throw exception;
@@ -77,7 +77,7 @@ describe('index', () => {
       authorize.mockReturnValue(response);
 
       const actual = await handler();
-      
+
       expect(actual).toBe(response);
     });
   });
