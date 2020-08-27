@@ -9,7 +9,7 @@ export default class RequestValidator {
     this._request = request;
     this._errors = [];
     this._apiGatewayArn = null;
-    this._authTokenPattern = RegExp("^Bearer .*$");
+    this._authTokenPattern = new RegExp('^Bearer .*$');
   }
 
   get apiGatewayArn() { return this._apiGatewayArn; }
@@ -38,7 +38,7 @@ export default class RequestValidator {
         this._errors.push('Expected "methodArn" to have been provided.');
       } else {
         try {
-          this._apiGatewayArn = new ApiGatewayArn(methodArn);
+          this._apiGatewayArn = ApiGatewayArn.parse(methodArn);
         } catch (e) {
           if (e instanceof ApiGatewayArnException) {
             this._errors.push(`Could not parse "methodArn": "${methodArn}".`);

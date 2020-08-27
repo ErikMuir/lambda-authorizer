@@ -2,10 +2,57 @@ import ApiGatewayArn from '../../src/Models/ApiGatewayArn';
 import ApiGatewayArnException from '../../src/Exceptions/ApiGatewayArnException';
 
 describe('ApiGatewayArn', () => {
+  const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
+  const objectArn = {
+    partition: 'partition',
+    service: 'service',
+    region: 'region',
+    awsAccountId: 'aws-account-id',
+    restApiId: 'rest-api-id',
+    stage: 'stage',
+    verb: 'verb',
+    resource: 'path/to/resource',
+  };
+
   describe('constructor', () => {
-    describe('parses value', () => {
-      const methodArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-      const actual = new ApiGatewayArn(methodArn);
+    const actual = new ApiGatewayArn(objectArn);
+
+    test('sets partition', () => {
+      expect(actual.partition).toBe('partition');
+    });
+
+    test('sets service', () => {
+      expect(actual.service).toBe('service');
+    });
+
+    test('sets region', () => {
+      expect(actual.region).toBe('region');
+    });
+
+    test('sets awsAccountId', () => {
+      expect(actual.awsAccountId).toBe('aws-account-id');
+    });
+
+    test('sets restApiId', () => {
+      expect(actual.restApiId).toBe('rest-api-id');
+    });
+
+    test('sets stage', () => {
+      expect(actual.stage).toBe('stage');
+    });
+
+    test('sets verb', () => {
+      expect(actual.verb).toBe('verb');
+    });
+
+    test('sets resource', () => {
+      expect(actual.resource).toBe('path/to/resource');
+    });
+  });
+
+  describe('static parse', () => {
+    describe('returns new instance of ApiGatewayArn', () => {
+      const actual = ApiGatewayArn.parse(stringArn);
 
       test('sets partition', () => {
         expect(actual.partition).toBe('partition');
@@ -49,7 +96,7 @@ describe('ApiGatewayArn', () => {
       ].forEach(({ value, desc }) => {
         test(desc, () => {
           try {
-            new ApiGatewayArn(value);
+            ApiGatewayArn.parse(value);
 
             expect(true).toBe(false); // should never happen
           } catch (e) {
@@ -61,11 +108,10 @@ describe('ApiGatewayArn', () => {
   });
 
   describe('toString', () => {
-    const methodArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-    const actual = new ApiGatewayArn(methodArn);
+    const actual = ApiGatewayArn.parse(stringArn);
 
     test('returns arn in correct format', () => {
-      expect(actual.toString()).toBe(methodArn);
+      expect(actual.toString()).toBe(stringArn);
     });
   });
 });

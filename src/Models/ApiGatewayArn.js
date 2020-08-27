@@ -1,38 +1,47 @@
 import ApiGatewayArnException from '../Exceptions/ApiGatewayArnException';
 
 export default class ApiGatewayArn {
-  constructor(value) {
-    this.partition = null;
-    this.service = null;
-    this.region = null;
-    this.awsAccountId = null;
-    this.restApiId = null;
-    this.stage = null;
-    this.verb = null;
-    this.resource = null;
+  constructor(object = {}) {
+    const {
+      partition,
+      service,
+      region,
+      awsAccountId,
+      restApiId,
+      stage,
+      verb,
+      resource,
+    } = object;
 
-    this._parse(value);
+    this.partition = partition;
+    this.service = service;
+    this.region = region;
+    this.awsAccountId = awsAccountId;
+    this.restApiId = restApiId;
+    this.stage = stage;
+    this.verb = verb;
+    this.resource = resource;
   }
 
-  _parse(value) {
+  static parse(value) {
     try {
-        const arnSplit = value.split(':');
-        this.partition = arnSplit[1];
-        this.service = arnSplit[2];
-        this.region = arnSplit[3];
-        this.awsAccountId = arnSplit[4];
+      const arnSplit = value.split(':');
+      const pathSplit = arnSplit[5].split('/');
 
-        const pathSplit = arnSplit[5].split('/');
-        this.restApiId = pathSplit[0];
-        this.stage = pathSplit[1];
-        this.verb = pathSplit[2];
+      const object = {
+        partition: arnSplit[1],
+        service: arnSplit[2],
+        region: arnSplit[3],
+        awsAccountId: arnSplit[4],
+        restApiId: pathSplit[0],
+        stage: pathSplit[1],
+        verb: pathSplit[2],
+        resource: pathSplit.length > 3 ? pathSplit.slice(3).join('/') : '',
+      };
 
-        if (pathSplit.length > 3)
-        {
-            this.resource = pathSplit.slice(3).join('/');
-        }
+      return new this(object);
     } catch {
-        throw new ApiGatewayArnException(`Invalid method arn: '${value}'`);
+      throw new ApiGatewayArnException(`Invalid API Gateway ARN: '${value}'`);
     }
   }
 
