@@ -1,6 +1,6 @@
 import { LogEnv, LambdaLogger } from '@erikmuir/lambda-utils';
-import { authorize } from './Services/AuthorizerFacade';
-import UnauthorizedException from './Exceptions/UnauthorizedException';
+import { authorize } from './services/AuthorizerFacade';
+import UnauthorizedException from './exceptions/UnauthorizedException';
 
 exports.handler = async function (event, context) {
   LogEnv.lambdaEvent = event;

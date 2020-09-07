@@ -1,6 +1,6 @@
-import RequestValidator from '../../src/Services/RequestValidator';
-import RequestValidationException from '../../src/Exceptions/RequestValidationException';
-import ApiGatewayArn from '../../src/Models/ApiGatewayArn';
+import RequestValidator from '../../src/services/RequestValidator';
+import RequestValidationException from '../../src/exceptions/RequestValidationException';
+import ApiGatewayArn from '../../src/models/ApiGatewayArn';
 
 jest.mock('@erikmuir/lambda-utils/dist/utilities/LambdaLogger');
 

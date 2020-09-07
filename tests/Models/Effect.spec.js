@@ -1,4 +1,4 @@
-import Effect from '../../src/Models/Effect';
+import Effect from '../../src/models/Effect';
 import { expectError } from '@erikmuir/node-utils';
 
 describe('Effect', () => {

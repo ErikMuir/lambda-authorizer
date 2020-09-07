@@ -1,5 +1,5 @@
-import ApiGatewayArn from '../../src/Models/ApiGatewayArn';
-import ApiGatewayArnException from '../../src/Exceptions/ApiGatewayArnException';
+import ApiGatewayArn from '../../src/models/ApiGatewayArn';
+import ApiGatewayArnException from '../../src/exceptions/ApiGatewayArnException';
 import { expectError } from '@erikmuir/node-utils';
 
 describe('ApiGatewayArn', () => {

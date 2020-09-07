@@ -1,4 +1,4 @@
-import ApiGatewayArnException from '../Exceptions/ApiGatewayArnException';
+import ApiGatewayArnException from '../exceptions/ApiGatewayArnException';
 
 export default class ApiGatewayArn {
   constructor(object = {}) {

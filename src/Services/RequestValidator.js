@@ -1,7 +1,7 @@
 import { LambdaLogger } from '@erikmuir/lambda-utils';
-import ApiGatewayArn from '../Models/ApiGatewayArn';
-import ApiGatewayArnException from '../Exceptions/ApiGatewayArnException';
-import RequestValidationException from '../Exceptions/RequestValidationException';
+import ApiGatewayArn from '../models/ApiGatewayArn';
+import ApiGatewayArnException from '../exceptions/ApiGatewayArnException';
+import RequestValidationException from '../exceptions/RequestValidationException';
 
 export default class RequestValidator {
   constructor(request) {

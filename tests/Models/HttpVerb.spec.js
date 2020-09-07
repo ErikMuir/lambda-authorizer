@@ -1,4 +1,4 @@
-import HttpVerb from '../../src/Models/HttpVerb';
+import HttpVerb from '../../src/models/HttpVerb';
 import { expectError } from '@erikmuir/node-utils';
 
 describe('HttpVerb', () => {

@@ -1,4 +1,4 @@
-import PolicyDocument from '../../src/Models/PolicyDocument';
+import PolicyDocument from '../../src/models/PolicyDocument';
 
 describe('PolicyDocument', () => {
   describe('constructor', () => {
@@ -14,7 +14,7 @@ describe('PolicyDocument', () => {
       const statements = ['foo', 'bar', 'baz'];
 
       const actual = new PolicyDocument(statements);
-      
+
       expect(actual.Statement).toBe(statements);
     });
 

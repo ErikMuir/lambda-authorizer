@@ -1,14 +1,14 @@
-import BaseException from '../../src/Exceptions/BaseException';
-import ApiGatewayArnException from '../../src/Exceptions/ApiGatewayArnException';
-import PolicyBuilderException from '../../src/Exceptions/PolicyBuilderException';
-import ClaimsPrincipalException from '../../src/Exceptions/ClaimsPrincipalException';
-import JsonWebKeyClientException from '../../src/Exceptions/JsonWebKeyClientException';
-import JsonWebKeyServiceException from '../../src/Exceptions/JsonWebKeyServiceException';
-import TokenValidationException from '../../src/Exceptions/TokenValidationException';
-import UnauthorizedException from '../../src/Exceptions/UnauthorizedException';
-import RequestValidationException from '../../src/Exceptions/RequestValidationException';
+import BaseException from '../../src/exceptions/BaseException';
+import ApiGatewayArnException from '../../src/exceptions/ApiGatewayArnException';
+import PolicyBuilderException from '../../src/exceptions/PolicyBuilderException';
+import ClaimsPrincipalException from '../../src/exceptions/ClaimsPrincipalException';
+import JsonWebKeyClientException from '../../src/exceptions/JsonWebKeyClientException';
+import JsonWebKeyServiceException from '../../src/exceptions/JsonWebKeyServiceException';
+import TokenValidationException from '../../src/exceptions/TokenValidationException';
+import UnauthorizedException from '../../src/exceptions/UnauthorizedException';
+import RequestValidationException from '../../src/exceptions/RequestValidationException';
 
-describe('Exceptions', () => {
+describe('exceptions', () => {
   test('BaseException', () => {
     const err = new BaseException('foobar');
 
@@ -18,7 +18,7 @@ describe('Exceptions', () => {
     expect(Error.prototype.isPrototypeOf(err)).toBe(true);
     expect(err.constructor.name).toBe('BaseException');
     expect(err.name).toBe('BaseException');
-    expect(err.message).toBe("foobar");
+    expect(err.message).toBe('foobar');
     expect(err.toString()).toBe('BaseException: foobar');
     expect(err.stack).toBeDefined();
   });

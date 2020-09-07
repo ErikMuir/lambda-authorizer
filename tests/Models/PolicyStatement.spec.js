@@ -1,6 +1,6 @@
-import PolicyStatement from '../../src/Models/PolicyStatement';
-import Effect from '../../src/Models/Effect';
-import ApiGatewayArn from '../../src/Models/ApiGatewayArn';
+import PolicyStatement from '../../src/models/PolicyStatement';
+import Effect from '../../src/models/Effect';
+import ApiGatewayArn from '../../src/models/ApiGatewayArn';
 
 describe('PolicyStatement', () => {
   describe('constructor', () => {
