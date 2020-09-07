@@ -19,6 +19,12 @@ const _allowedVerbs = [
   HttpVerb.all,
 ];
 
+export {
+  _resourcePattern as resourcePattern,
+  _allowedEffects as allowedEffects,
+  _allowedVerbs as allowedVerbs,
+};
+
 export default class PolicyBuilder {
   constructor() {
     this._apiGatewayArn = null;
@@ -188,9 +194,3 @@ export default class PolicyBuilder {
     }
   }
 }
-
-export {
-  _resourcePattern as resourcePattern,
-  _allowedEffects as allowedEffects,
-  _allowedVerbs as allowedVerbs,
-};
