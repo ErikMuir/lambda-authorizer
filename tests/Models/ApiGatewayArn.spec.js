@@ -1,5 +1,6 @@
 import ApiGatewayArn from '../../src/Models/ApiGatewayArn';
 import ApiGatewayArnException from '../../src/Exceptions/ApiGatewayArnException';
+import { expectError } from '@erikmuir/node-utils';
 
 describe('ApiGatewayArn', () => {
   const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
@@ -95,13 +96,10 @@ describe('ApiGatewayArn', () => {
         { value: 'this-is:a:bad/method/arn', desc: 'when value is not a valid method arn' },
       ].forEach(({ value, desc }) => {
         test(desc, () => {
-          try {
-            ApiGatewayArn.parse(value);
+          const action = () => ApiGatewayArn.parse(value);
+          const assertions = e => expect(e instanceof ApiGatewayArnException).toBe(true);
 
-            expect(true).toBe(false); // should never happen
-          } catch (e) {
-            expect(e instanceof ApiGatewayArnException).toBe(true);
-          }
+          expectError(action, assertions);
         });
       });
     });

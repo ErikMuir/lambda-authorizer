@@ -1,124 +1,132 @@
 import HttpVerb from '../../src/Models/HttpVerb';
-import * as utils from '../utils';
+import { expectError } from '@erikmuir/node-utils';
 
 describe('HttpVerb', () => {
   describe('get', () => {
-    test('returns GET', () => {
+    test('getter returns GET', () => {
       expect(HttpVerb.get).toBe('GET');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.get = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.get = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property get');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property get');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('post', () => {
-    test('returns POST', () => {
+    test('getter returns POST', () => {
       expect(HttpVerb.post).toBe('POST');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.post = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.post = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property post');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property post');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('put', () => {
-    test('returns PUT', () => {
+    test('getter returns PUT', () => {
       expect(HttpVerb.put).toBe('PUT');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.put = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.put = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property put');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property put');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('patch', () => {
-    test('returns PATCH', () => {
+    test('getter returns PATCH', () => {
       expect(HttpVerb.patch).toBe('PATCH');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.patch = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.patch = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property patch');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property patch');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('head', () => {
-    test('returns HEAD', () => {
+    test('getter returns HEAD', () => {
       expect(HttpVerb.head).toBe('HEAD');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.head = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.head = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property head');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property head');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('delete', () => {
-    test('returns DELETE', () => {
+    test('getter returns DELETE', () => {
       expect(HttpVerb.delete).toBe('DELETE');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.delete = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.delete = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property delete');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property delete');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('options', () => {
-    test('returns OPTIONS', () => {
+    test('getter returns OPTIONS', () => {
       expect(HttpVerb.options).toBe('OPTIONS');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.options = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.options = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property options');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property options');
+      expectError(action, assertions);
     });
   });
-  
+
   describe('all', () => {
-    test('returns *', () => {
+    test('getter returns *', () => {
       expect(HttpVerb.all).toBe('*');
     });
 
-    test('cannot be set', () => {
-      const error = utils.recordError(() => {
-        HttpVerb.all = 'foobar';
-      });
+    test('setter throws', () => {
+      const action = () => (HttpVerb.all = 'foobar');
+      const assertions = e => {
+        expect(e instanceof TypeError).toBe(true);
+        expect(e.message).toContain('Cannot set property all');
+      };
 
-      expect(error instanceof TypeError).toBe(true);
-      expect(error.message).toContain('Cannot set property all');
+      expectError(action, assertions);
     });
   });
 });
