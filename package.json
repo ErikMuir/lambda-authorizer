@@ -1,5 +1,5 @@
 {
-  "name": "lambda-authorizer",
+  "name": "@erikmuir/lambda-authorizer",
   "version": "0.1.0",
   "description": "AWS API Gateway Custom Lambda Authorizer for NodeJS",
   "main": "./dist/index.js",
