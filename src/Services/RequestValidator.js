@@ -1,4 +1,5 @@
 import { LambdaLogger } from '@erikmuir/lambda-utils';
+import jwt from 'jsonwebtoken';
 import ApiGatewayArn from '../models/ApiGatewayArn';
 import ApiGatewayArnException from '../exceptions/ApiGatewayArnException';
 import RequestValidationException from '../exceptions/RequestValidationException';
@@ -8,9 +9,12 @@ export default class RequestValidator {
     this._logger = new LambdaLogger('RequestValidationService');
     this._request = request;
     this._errors = [];
+    this._token = null;
     this._apiGatewayArn = null;
     this._authTokenPattern = new RegExp('^Bearer .*$');
   }
+
+  get token() { return this._token; }
 
   get apiGatewayArn() { return this._apiGatewayArn; }
 
@@ -32,6 +36,12 @@ export default class RequestValidator {
         this._errors.push('Expected "authorizationToken" to have been provided.');
       } else if (!this._authTokenPattern.test(authorizationToken)) {
         this._errors.push('Expected "authorizationToken" to match "^Bearer .*$".');
+      } else {
+        this._token = authorizationToken.replace('Bearer ', '');
+        const decoded = jwt.decode(this._token, { complete: true });
+        if (decoded === null) {
+          this._errors.push('Malformed authorization token cannot be JWT decoded.');
+        }
       }
 
       if (!methodArn) {
@@ -50,7 +60,7 @@ export default class RequestValidator {
     }
 
     if (this._errors.length > 0) {
-      this._logger.error('Request validation failed', { requestValidationErrors: this._errors });
+      this._logger.trace('Request validation failed', { requestValidationErrors: this._errors });
       throw new RequestValidationException();
     }
 

@@ -1,15 +1,22 @@
+import jwt from 'jsonwebtoken';
 import RequestValidator from '../../src/services/RequestValidator';
 import RequestValidationException from '../../src/exceptions/RequestValidationException';
 import ApiGatewayArn from '../../src/models/ApiGatewayArn';
 
 jest.mock('@erikmuir/lambda-utils/dist/utilities/LambdaLogger');
+jest.mock('jsonwebtoken');
 
 describe('RequestValidator', () => {
   const type = 'TOKEN';
   const authorizationToken = 'Bearer xyz';
   const methodArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
+  const mockDecode = jwt.decode;
 
-  afterAll(() => {
+  beforeEach(() => {
+    mockDecode.mockReturnValue('foobar');
+  });
+
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 
@@ -51,6 +58,20 @@ describe('RequestValidator', () => {
             expect(e instanceof RequestValidationException).toBe(true);
           }
         });
+      });
+
+      test('when authorizationToken cannot be jwt decoded', () => {
+        const request = { type, authorizationToken, methodArn };
+        const validator = new RequestValidator(request);
+        mockDecode.mockReturnValue(null);
+
+        try {
+          validator.validate();
+
+          expect(true).toBe(false); // should never happen
+        } catch (e) {
+          expect(e instanceof RequestValidationException).toBe(true);
+        }
       });
     });
   });

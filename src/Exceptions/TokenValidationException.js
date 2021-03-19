@@ -1,8 +1,8 @@
-import BaseException from './BaseException';
+import UnauthorizedException from './UnauthorizedException';
 
-export default class TokenValidationException extends BaseException {
-  constructor(message) {
-    super(message);
+export default class TokenValidationException extends UnauthorizedException {
+  constructor() {
+    super();
     this.name = 'TokenValidationException';
   }
 }

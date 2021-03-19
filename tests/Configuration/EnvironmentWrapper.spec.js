@@ -1,29 +1,34 @@
-import EnvironmentWrapper from '../../src/Configuration/EnvironmentWrapper';
+import envWrapper from '../../src/Configuration/EnvironmentWrapper';
 
 describe('EnvironmentWrapper', () => {
-  const env = new EnvironmentWrapper();
+  describe('environment variables', () => {
+    let originalEnv;
 
-  test('issuer', () => {
-    process.env = { ...process.env, ISSUER: 'foobar-issuer' };
+    beforeAll(() => {
+      originalEnv = { ...process.env };
+    });
 
-    expect(env.issuer).toBe('foobar-issuer');
-  });
+    afterEach(() => {
+      process.env = originalEnv;
+    });
 
-  test('audience', () => {
-    process.env = { ...process.env, AUDIENCE: 'foobar-audience' };
+    [
+      'ISSUER',
+      'AUDIENCE',
+    ].forEach(envVar => {
+      test(`${envVar} returns value when set`, () => {
+        const expectedValue = 'foobar';
 
-    expect(env.audience).toBe('foobar-audience');
-  });
+        process.env = { ...process.env, [envVar]: expectedValue };
 
-  test('jwks', () => {
-    process.env = { ...process.env, JWKS: 'foobar-jwks' };
+        expect(envWrapper[envVar]).toBe(expectedValue);
+      });
 
-    expect(env.jwks).toBe('foobar-jwks');
-  });
+      test(`${envVar} throws when not set`, () => {
+        const expectedError = `Environment variable: ${envVar} not set.`;
 
-  test('jwksUri', () => {
-    process.env = { ...process.env, JWKS_URI: 'foobar-jwks-uri' };
-    
-    expect(env.jwksUri).toBe('foobar-jwks-uri');
+        expect(() => envWrapper[envVar]).toThrow(expectedError);
+      });
+    });
   });
 });
