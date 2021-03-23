@@ -1,4 +1,4 @@
-const ApiGatewayArnException = require('../exceptions_/ApiGatewayArnException');
+const ApiGatewayArnException = require('../exceptions/ApiGatewayArnException');
 
 module.exports = class ApiGatewayArn {
   constructor(object = {}) {
