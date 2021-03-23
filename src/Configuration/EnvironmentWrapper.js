@@ -1,4 +1,4 @@
-import { LogEnv } from '@erikmuir/lambda-utils';
+const { LogEnv } = require('@erikmuir/lambda-utils');
 
 module.exports = {
   get ISSUER() { return LogEnv.getEnvOrThrow('ISSUER'); },

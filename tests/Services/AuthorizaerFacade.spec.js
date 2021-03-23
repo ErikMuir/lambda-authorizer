@@ -1,4 +1,4 @@
-import * as authorizerFacade from '../../src/services/AuthorizerFacade';
+const authorizerFacade = require('../../src/services/AuthorizerFacade');
 
 describe('AuthorizerFacade', () => {
   test('label', () => {});

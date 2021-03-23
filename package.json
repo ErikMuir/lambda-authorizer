@@ -24,16 +24,12 @@
   },
   "homepage": "https://github.com/ErikMuir/lambda-authorizer#readme",
   "dependencies": {
-    "@erikmuir/lambda-utils": "^0.3.0",
-    "@erikmuir/node-utils": "^0.1.0",
+    "@erikmuir/lambda-utils": "^0.4.1",
+    "@erikmuir/node-utils": "^0.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/preset-env": "^7.11.0",
     "jest": "^26.2.2"
   }
 }

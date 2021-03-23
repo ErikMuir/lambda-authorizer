@@ -1,6 +1,6 @@
-import BaseException from './BaseException';
+const BaseException = require('./BaseException');
 
-export default class PolicyBuilderException extends BaseException {
+module.exports = class PolicyBuilderException extends BaseException {
   constructor(message) {
     super(message);
     this.name = 'PolicyBuilderException';

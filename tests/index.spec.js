@@ -1,9 +1,9 @@
-import { handler } from '../src/index';
-import { LogEnv } from '@erikmuir/lambda-utils';
-import { authorize } from '../src/services/AuthorizerFacade';
-import UnauthorizedException from '../src/exceptions/UnauthorizedException';
+const { handler } = require('../src/index');
+const { LogEnv } = require('@erikmuir/lambda-utils');
+const { authorize } = require('../src/services/AuthorizerFacade');
+const UnauthorizedException = require('../src/exceptions/UnauthorizedException');
 
-jest.mock('@erikmuir/lambda-utils/dist/utilities/LambdaLogger');
+jest.mock('@erikmuir/lambda-utils/src/utilities/LambdaLogger');
 jest.mock('../src/services/AuthorizerFacade');
 
 describe('index', () => {

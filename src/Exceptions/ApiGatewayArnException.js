@@ -1,6 +1,6 @@
-import BaseException from './BaseException';
+const BaseException = require('./BaseException');
 
-export default class ApiGatewayArnException extends BaseException {
+module.exports = class ApiGatewayArnException extends BaseException {
   constructor(message) {
     super(message);
     this.name = 'ApiGatewayArnException';

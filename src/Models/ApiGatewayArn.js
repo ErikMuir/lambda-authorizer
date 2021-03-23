@@ -1,6 +1,6 @@
-import ApiGatewayArnException from '../exceptions/ApiGatewayArnException';
+const ApiGatewayArnException = require('../exceptions/ApiGatewayArnException');
 
-export default class ApiGatewayArn {
+module.exports = class ApiGatewayArn {
   constructor(object = {}) {
     const {
       partition,

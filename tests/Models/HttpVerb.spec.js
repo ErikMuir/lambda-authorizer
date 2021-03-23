@@ -1,5 +1,5 @@
-import HttpVerb from '../../src/models/HttpVerb';
-import { expectError } from '@erikmuir/node-utils';
+const HttpVerb = require('../../src/models/HttpVerb');
+const { testUtils: { expectError } } = require('@erikmuir/node-utils');
 
 describe('HttpVerb', () => {
   describe('get', () => {

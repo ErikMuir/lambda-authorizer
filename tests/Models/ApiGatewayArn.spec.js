@@ -1,6 +1,6 @@
-import ApiGatewayArn from '../../src/models/ApiGatewayArn';
-import ApiGatewayArnException from '../../src/exceptions/ApiGatewayArnException';
-import { expectError } from '@erikmuir/node-utils';
+const ApiGatewayArn = require('../../src/models/ApiGatewayArn');
+const ApiGatewayArnException = require('../../src/exceptions/ApiGatewayArnException');
+const { testUtils } = require('@erikmuir/node-utils');
 
 describe('ApiGatewayArn', () => {
   const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
@@ -99,7 +99,7 @@ describe('ApiGatewayArn', () => {
           const action = () => ApiGatewayArn.parse(value);
           const assertions = e => expect(e instanceof ApiGatewayArnException).toBe(true);
 
-          expectError(action, assertions);
+          testUtils.expectError(action, assertions);
         });
       });
     });

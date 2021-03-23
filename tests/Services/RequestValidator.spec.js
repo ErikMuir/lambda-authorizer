@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import RequestValidator from '../../src/services/RequestValidator';
-import RequestValidationException from '../../src/exceptions/RequestValidationException';
-import ApiGatewayArn from '../../src/models/ApiGatewayArn';
+const jwt = require('jsonwebtoken');
+const RequestValidator = require('../../src/services/RequestValidator');
+const RequestValidationException = require('../../src/exceptions/RequestValidationException');
+const ApiGatewayArn = require('../../src/models/ApiGatewayArn');
 
-jest.mock('@erikmuir/lambda-utils/dist/utilities/LambdaLogger');
+jest.mock('@erikmuir/lambda-utils/src/utilities/LambdaLogger');
 jest.mock('jsonwebtoken');
 
 describe('RequestValidator', () => {

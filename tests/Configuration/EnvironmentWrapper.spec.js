@@ -1,4 +1,4 @@
-import envWrapper from '../../src/Configuration/EnvironmentWrapper';
+const envWrapper = require('../../src/Configuration/EnvironmentWrapper');
 
 describe('EnvironmentWrapper', () => {
   describe('environment variables', () => {

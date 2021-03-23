@@ -1,10 +1,10 @@
-import { LambdaLogger } from '@erikmuir/lambda-utils';
-import jwt from 'jsonwebtoken';
-import ApiGatewayArn from '../models/ApiGatewayArn';
-import ApiGatewayArnException from '../exceptions/ApiGatewayArnException';
-import RequestValidationException from '../exceptions/RequestValidationException';
+const { LambdaLogger } = require('@erikmuir/lambda-utils');
+const jwt = require('jsonwebtoken');
+const ApiGatewayArn = require('../models/ApiGatewayArn');
+const ApiGatewayArnException = require('../exceptions/ApiGatewayArnException');
+const RequestValidationException = require('../exceptions/RequestValidationException');
 
-export default class RequestValidator {
+module.exports = class RequestValidator {
   constructor(request) {
     this._logger = new LambdaLogger('RequestValidationService');
     this._request = request;

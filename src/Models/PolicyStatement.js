@@ -1,6 +1,6 @@
 const invokeApiAction = 'execute-api:Invoke';
 
-export default class PolicyStatement {
+module.exports = class PolicyStatement {
   constructor({ effect, arn } = {}) {
     this.Effect = effect;
     this.Resource = arn ? [ arn.toString() ] : [];

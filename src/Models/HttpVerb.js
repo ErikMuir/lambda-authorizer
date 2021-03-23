@@ -1,12 +1,18 @@
-const HttpVerb = {
+module.exports = {
   get get() { return 'GET'; },
+  set get(val) { throw new TypeError('Cannot set property get'); },
   get post() { return 'POST'; },
+  set post(val) { throw new TypeError('Cannot set property post'); },
   get put() { return 'PUT'; },
+  set put(val) { throw new TypeError('Cannot set property put'); },
   get patch() { return 'PATCH'; },
+  set patch(val) { throw new TypeError('Cannot set property patch'); },
   get head() { return 'HEAD'; },
+  set head(val) { throw new TypeError('Cannot set property head'); },
   get delete() { return 'DELETE'; },
+  set delete(val) { throw new TypeError('Cannot set property delete'); },
   get options() { return 'OPTIONS'; },
+  set options(val) { throw new TypeError('Cannot set property options'); },
   get all() { return '*'; },
+  set all(val) { throw new TypeError('Cannot set property all'); },
 };
-
-export default HttpVerb;
