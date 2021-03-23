@@ -1,6 +1,6 @@
-import UnauthorizedException from './UnauthorizedException';
+const UnauthorizedException = require('./UnauthorizedException');
 
-export default class TokenValidationException extends UnauthorizedException {
+module.exports = class TokenValidationException extends UnauthorizedException {
   constructor() {
     super();
     this.name = 'TokenValidationException';

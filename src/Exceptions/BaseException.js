@@ -1,4 +1,4 @@
-export default class BaseException extends Error {
+module.exports = class BaseException extends Error {
   constructor(message) {
     super(message);
     this.name = 'BaseException';

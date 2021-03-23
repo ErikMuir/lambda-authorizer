@@ -1,4 +1,4 @@
-import PolicyDocument from '../../src/models/PolicyDocument';
+const PolicyDocument = require('../../src/models/PolicyDocument');
 
 describe('PolicyDocument', () => {
   describe('constructor', () => {

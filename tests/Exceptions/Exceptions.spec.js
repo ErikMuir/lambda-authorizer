@@ -1,9 +1,9 @@
-import BaseException from '../../src/exceptions/BaseException';
-import ApiGatewayArnException from '../../src/exceptions/ApiGatewayArnException';
-import PolicyBuilderException from '../../src/exceptions/PolicyBuilderException';
-import TokenValidationException from '../../src/exceptions/TokenValidationException';
-import UnauthorizedException from '../../src/exceptions/UnauthorizedException';
-import RequestValidationException from '../../src/exceptions/RequestValidationException';
+const BaseException = require('../../src/exceptions/BaseException');
+const ApiGatewayArnException = require('../../src/exceptions/ApiGatewayArnException');
+const PolicyBuilderException = require('../../src/exceptions/PolicyBuilderException');
+const TokenValidationException = require('../../src/exceptions/TokenValidationException');
+const UnauthorizedException = require('../../src/exceptions/UnauthorizedException');
+const RequestValidationException = require('../../src/exceptions/RequestValidationException');
 
 describe('exceptions', () => {
   test('BaseException', () => {

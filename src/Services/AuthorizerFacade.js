@@ -1,10 +1,10 @@
-import { LambdaLogger } from '@erikmuir/lambda-utils';
-import RequestValidator from './RequestValidator';
-import TokenValidator from './TokenValidator';
-import PolicyBuilder from './PolicyBuilder';
-import UnauthorizedException from '../exceptions/UnauthorizedException';
+const { LambdaLogger } = require('@erikmuir/lambda-utils');
+const RequestValidator = require('./RequestValidator');
+const TokenValidator = require('./TokenValidator');
+const PolicyBuilder = require('./PolicyBuilder');
+const UnauthorizedException = require('../exceptions/UnauthorizedException');
 
-export const authorize = request => {
+module.exports.authorize = request => {
   const logger = new LambdaLogger('AuthorizerFacade');
 
   try {

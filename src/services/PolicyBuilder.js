@@ -1,10 +1,10 @@
-import HttpVerb from '../models/HttpVerb';
-import Effect from '../models/Effect';
-import ApiGatewayArn from '../models/ApiGatewayArn';
-import PolicyDocument from '../models/PolicyDocument';
-import PolicyStatement from '../models/PolicyStatement';
-import PolicyBuilderException from '../exceptions/PolicyBuilderException';
-import { PrimitiveMap } from '@erikmuir/node-utils';
+const HttpVerb = require('../models/HttpVerb');
+const Effect = require('../models/Effect');
+const ApiGatewayArn = require('../models/ApiGatewayArn');
+const PolicyDocument = require('../models/PolicyDocument');
+const PolicyStatement = require('../models/PolicyStatement');
+const PolicyBuilderException = require('../exceptions/PolicyBuilderException');
+const { PrimitiveMap } = require('@erikmuir/node-utils');
 
 const _resourcePattern = new RegExp('^[/.a-zA-Z0-9-\\*]+$');
 const _allowedEffects = [Effect.allow, Effect.deny];
@@ -19,13 +19,7 @@ const _allowedVerbs = [
   HttpVerb.all,
 ];
 
-export {
-  _resourcePattern as resourcePattern,
-  _allowedEffects as allowedEffects,
-  _allowedVerbs as allowedVerbs,
-};
-
-export default class PolicyBuilder {
+module.exports = class PolicyBuilder {
   constructor() {
     this._apiGatewayArn = null;
     this._principalId = null;

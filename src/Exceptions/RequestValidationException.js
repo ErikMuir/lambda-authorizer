@@ -1,6 +1,6 @@
-import UnauthorizedException from './UnauthorizedException';
+const UnauthorizedException = require('./UnauthorizedException');
 
-export default class RequestValidationException extends UnauthorizedException {
+module.exports = class RequestValidationException extends UnauthorizedException {
   constructor() {
     super();
     this.name = 'RequestValidationException';

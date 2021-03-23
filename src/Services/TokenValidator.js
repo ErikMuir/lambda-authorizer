@@ -1,10 +1,10 @@
-import { LambdaLogger } from '@erikmuir/lambda-utils';
-import jwt from 'jsonwebtoken';
-import env from '../configuration/EnvironmentWrapper';
-import TokenValidationException from '../exceptions/TokenValidationException';
-import { getSigningKey } from './LazyJwksClient';
+const { LambdaLogger } = require('@erikmuir/lambda-utils');
+const jwt = require('jsonwebtoken');
+const env = require('../configuration/EnvironmentWrapper');
+const TokenValidationException = require('../exceptions/TokenValidationException');
+const { getSigningKey } = require('./LazyJwksClient');
 
-export default class TokenValidator {
+module.exports = class TokenValidator {
   constructor({ authorizationToken }) {
     this._logger = new LambdaLogger('TokenValidator');
     this._token = authorizationToken.replace('Bearer ', '');

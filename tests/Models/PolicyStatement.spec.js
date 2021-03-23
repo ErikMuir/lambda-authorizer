@@ -1,6 +1,6 @@
-import PolicyStatement from '../../src/models/PolicyStatement';
-import Effect from '../../src/models/Effect';
-import ApiGatewayArn from '../../src/models/ApiGatewayArn';
+const PolicyStatement = require('../../src/models/PolicyStatement');
+const Effect = require('../../src/models/Effect');
+const ApiGatewayArn = require('../../src/models/ApiGatewayArn');
 
 describe('PolicyStatement', () => {
   describe('constructor', () => {

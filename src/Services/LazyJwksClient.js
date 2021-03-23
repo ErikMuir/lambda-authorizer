@@ -1,4 +1,4 @@
-import jwksClient from 'jwks-rsa';
+const jwksClient = require('jwks-rsa');
 
 const jwksClientCache = {};
 

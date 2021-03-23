@@ -1,8 +1,8 @@
-import { LogEnv, LambdaLogger } from '@erikmuir/lambda-utils';
-import { authorize } from './services/AuthorizerFacade';
-import UnauthorizedException from './exceptions/UnauthorizedException';
+const { LogEnv, LambdaLogger } = require('@erikmuir/lambda-utils');
+const { authorize } = require('./services/AuthorizerFacade');
+const UnauthorizedException = require('./exceptions/UnauthorizedException');
 
-exports.handler = async function (event, context) {
+module.exports.handler = async function (event, context) {
   LogEnv.initializeLambdaEnvironment({ event, context });
   const logger = new LambdaLogger('index');
 
