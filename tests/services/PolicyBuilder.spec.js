@@ -5,7 +5,7 @@ const HttpVerb = require('../../src/models/HttpVerb');
 const PolicyDocument = require('../../src/models/PolicyDocument');
 const PolicyStatement = require('../../src/models/PolicyStatement');
 const PolicyBuilderException = require('../../src/exceptions/PolicyBuilderException');
-const { PrimitiveMap, testUtils } = require('@erikmuir/node-utils');
+const { PrimitiveMap, testUtils: { expectError } } = require('@erikmuir/node-utils');
 
 const _arnString = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
 const _apiGatewayArn = ApiGatewayArn.parse(_arnString);
@@ -58,7 +58,7 @@ describe('PolicyBuilder', () => {
       test('throws when attempting to set to something other than ApiGatewayArn', () => {
         const action = () => (testObject.apiGatewayArn = 'foobar');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
     });
 
@@ -72,7 +72,7 @@ describe('PolicyBuilder', () => {
       test('throws when attempting to set to something other than a string', () => {
         const action = () => (testObject.principalId = 42);
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
     });
 
@@ -86,7 +86,7 @@ describe('PolicyBuilder', () => {
       test('throws when attempting to set to something other than a string', () => {
         const action = () => (testObject.usageIdentifierKey = 42);
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
     });
   });
@@ -149,37 +149,37 @@ describe('PolicyBuilder', () => {
       test('throws error when effect is not provided', () => {
         const action = () => testObject.addMethod(undefined, '*', '*');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
 
       test('throws error when effect is invalid', () => {
         const action = () => testObject.addMethod('invalid-method', '*', '*');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
 
       test('throws error when verb is not provided', () => {
         const action = () => testObject.addMethod(Effect.allow, undefined, '*');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
 
       test('throws error when verb is invalid', () => {
         const action = () => testObject.addMethod(Effect.allow, 'invalid-verb', '*');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
 
       test('throws error when resource is not provided', () => {
         const action = () => testObject.addMethod(Effect.allow, '*', undefined);
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
 
       test('throws error when resource is invalid', () => {
         const action = () => testObject.addMethod(Effect.allow, '*', '?@#$%');
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
-        testUtils.expectError(action, assertions);
+        expectError(action, assertions);
       });
     });
 

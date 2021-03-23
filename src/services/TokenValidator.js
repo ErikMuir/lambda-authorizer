@@ -4,42 +4,34 @@ const env = require('../configuration/EnvironmentWrapper');
 const TokenValidationException = require('../exceptions/TokenValidationException');
 const { getSigningKey } = require('./LazyJwksClient');
 
-module.exports = class TokenValidator {
-  constructor({ authorizationToken }) {
-    this._logger = new LambdaLogger('TokenValidator');
-    this._token = authorizationToken.replace('Bearer ', '');
-    this._decoded = null;
-    this._principalId = null;
-    this._scope = null;
-    this._validIssuers = env.ISSUER.split(';').map(x => x.trim());
-    this._validAudiences = env.AUDIENCE.split(';').map(x => x.trim());
+const logger = new LambdaLogger('TokenValidator');
+
+async function validateToken(token) {
+  logger.debug('validateToken - started');
+
+  let principalId;
+  let scope;
+  let decoded;
+
+  try {
+    decoded = jwt.decode(token, { complete: true });
+    const key = await getSigningKey(decoded);
+    const { aud } = decoded.payload;
+    const options = {
+      issuer: env.ISSUER.split(';').map(x => x.trim()),
+      audience: aud ? env.AUDIENCE.split(';').map(x => x.trim()) : undefined,
+    };
+    const verified = jwt.verify(token, key, options);
+    principalId = verified.sub;
+    scope = verified.scope;
+  } catch (e) {
+    logger.debug('validateToken - failed', e);
+    throw new TokenValidationException();
   }
 
-  get decoded() { return this._decoded; }
+  logger.debug('validateToken - succeeded');
 
-  get principalId() { return this._principalId; }
-
-  get scope() { return this._scope; }
-
-  async validate() {
-    this._logger.trace('Validating token');
-
-    try {
-      this._decoded = jwt.decode(this._token, { complete: true });
-      const key = await getSigningKey(this._decoded);
-      const { aud } = this._decoded.payload;
-      const options = {
-        issuer: env.ISSUER.split(';').map(x => x.trim()),
-        audience: aud ? env.AUDIENCE.split(';').map(x => x.trim()) : undefined,
-      };
-      const verified = jwt.verify(this._token, key, options);
-      this._principalId = verified.sub;
-      this._scope = verified.scope;
-    } catch (e) {
-      this._logger.trace(`Could not validate token: ${e}`);
-      throw new TokenValidationException();
-    }
-
-    this._logger.trace('Successfully validated token');
-  }
+  return { principalId, scope, decoded };
 }
+
+module.exports = { validateToken };

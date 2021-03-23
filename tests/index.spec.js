@@ -1,15 +1,35 @@
-const { handler } = require('../src/index');
 const { LogEnv } = require('@erikmuir/lambda-utils');
-const { authorize } = require('../src/services/AuthorizerFacade');
+const { handler } = require('../src/index');
+const ApiGatewayArnException = require('../src/exceptions/ApiGatewayArnException');
+const BaseException = require('../src/exceptions/BaseException');
+const PolicyBuilderException = require('../src/exceptions/PolicyBuilderException');
+const RequestValidationException = require('../src/exceptions/RequestValidationException');
+const TokenValidationException = require('../src/exceptions/TokenValidationException');
 const UnauthorizedException = require('../src/exceptions/UnauthorizedException');
+const ApiGatewayArn = require('../src/models/ApiGatewayArn');
+const PolicyDocument = require('../src/models/PolicyDocument');
+const { validateRequest } = require('../src/services/RequestValidator');
+const { validateToken } = require('../src/services/TokenValidator');
 
 jest.mock('@erikmuir/lambda-utils/src/utilities/LambdaLogger');
-jest.mock('../src/services/AuthorizerFacade');
+jest.mock('../src/services/RequestValidator');
+jest.mock('../src/services/TokenValidator');
+
 
 describe('index', () => {
   describe('handler', () => {
+    const event = { foo: 'bar' };
+    const context = { foo: 'bar' };
+    const token = 'Bearer xyz';
+    const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
+    const apiGatewayArn = new ApiGatewayArn(stringArn);
+    const principalId = 'user-123';
+    const scope = 'scope-abc';
+
     beforeEach(() => {
       jest.clearAllMocks();
+      validateRequest.mockReturnValue({ token, apiGatewayArn });
+      validateToken.mockResolvedValue({ principalId, scope });
     });
 
     afterAll(() => {
@@ -17,68 +37,63 @@ describe('index', () => {
     });
 
     test('sets event on environment wrapper', async () => {
-      const event = { foo: 'bar' };
-
       await handler(event, {});
 
       expect(LogEnv.lambdaEvent).toBe(event);
     });
 
     test('sets context on environment wrapper', async () => {
-      const context = { foo: 'bar' };
-
       await handler({}, context);
 
       expect(LogEnv.lambdaContext).toBe(context);
     });
 
-    test('calls authorize', async () => {
-      const event = {};
-
+    test('calls validateRequest', async () => {
       await handler(event, {});
 
-      expect(authorize).toHaveBeenCalledTimes(1);
-      expect(authorize).toHaveBeenCalledWith(event);
+      expect(validateRequest).toHaveBeenCalledTimes(1);
+      expect(validateRequest).toHaveBeenCalledWith(event);
     });
 
-    test('when unauthorized exception is thrown, then rethrows', async () => {
-      const exception = new UnauthorizedException();
-      authorize.mockImplementation(() => {
-        throw exception;
-      });
+    test('calls validateToken', async () => {
+      await handler();
 
-      try {
-        await handler();
-
-        expect(true).toBe(false); // should never happen
-      } catch (e) {
-        expect(e).toBe(exception);
-      }
+      expect(validateToken).toHaveBeenCalledTimes(1);
+      expect(validateToken).toHaveBeenCalledWith(token);
     });
 
-    test('when a non-unauthorized exception is thrown, then throws new unauthorized exception', async () => {
-      const exception = new Error();
-      authorize.mockImplementation(() => {
-        throw exception;
+    [
+      new Error(),
+      new TypeError(),
+      new ApiGatewayArnException(),
+      new BaseException(),
+      new PolicyBuilderException(),
+      new RequestValidationException(),
+      new TokenValidationException(),
+      new UnauthorizedException(),
+    ].forEach(error => {
+      test(`when ${error.name} is thrown, then throws new unauthorized exception`, async () => {
+        validateToken.mockImplementation(() => { throw error; });
+
+        try {
+          await handler();
+
+          expect(true).toBe(false); // should never happen
+        } catch (e) {
+          expect(e).toBeInstanceOf(UnauthorizedException);
+        }
       });
-
-      try {
-        await handler();
-
-        expect(true).toBe(false); // should never happen
-      } catch (e) {
-        expect(e).not.toBe(exception);
-        expect(e instanceof UnauthorizedException).toBe(true);
-      }
     });
 
     test('returns response', async () => {
-      const response = {};
-      authorize.mockReturnValue(response);
-
       const actual = await handler();
 
-      expect(actual).toBe(response);
+      expect(actual).toBeDefined();
+      expect(actual.principalId).toBe(principalId);
+      expect(actual.policyDocument).toBeDefined();
+      expect(actual.policyDocument instanceof PolicyDocument).toBe(true);
+      expect(actual.context).toBeDefined();
+      expect(actual.context.scope).toBe(scope);
     });
   });
 });
