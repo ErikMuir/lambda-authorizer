@@ -1,8 +1,8 @@
 const { LambdaLogger } = require('@erikmuir/lambda-utils');
 const jwt = require('jsonwebtoken');
-const ApiGatewayArn = require('../models/ApiGatewayArn');
-const ApiGatewayArnException = require('../exceptions/ApiGatewayArnException');
-const RequestValidationException = require('../exceptions/RequestValidationException');
+const ApiGatewayArn = require('../models_/ApiGatewayArn');
+const ApiGatewayArnException = require('../exceptions_/ApiGatewayArnException');
+const RequestValidationException = require('../exceptions_/RequestValidationException');
 
 module.exports = class RequestValidator {
   constructor(request) {

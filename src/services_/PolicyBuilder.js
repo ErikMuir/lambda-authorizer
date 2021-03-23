@@ -1,9 +1,9 @@
-const HttpVerb = require('../models/HttpVerb');
-const Effect = require('../models/Effect');
-const ApiGatewayArn = require('../models/ApiGatewayArn');
-const PolicyDocument = require('../models/PolicyDocument');
-const PolicyStatement = require('../models/PolicyStatement');
-const PolicyBuilderException = require('../exceptions/PolicyBuilderException');
+const HttpVerb = require('../models_/HttpVerb');
+const Effect = require('../models_/Effect');
+const ApiGatewayArn = require('../models_/ApiGatewayArn');
+const PolicyDocument = require('../models_/PolicyDocument');
+const PolicyStatement = require('../models_/PolicyStatement');
+const PolicyBuilderException = require('../exceptions_/PolicyBuilderException');
 const { PrimitiveMap } = require('@erikmuir/node-utils');
 
 const _resourcePattern = new RegExp('^[/.a-zA-Z0-9-\\*]+$');

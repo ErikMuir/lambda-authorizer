@@ -1,7 +1,7 @@
 const { LambdaLogger } = require('@erikmuir/lambda-utils');
 const jwt = require('jsonwebtoken');
-const env = require('../configuration/EnvironmentWrapper');
-const TokenValidationException = require('../exceptions/TokenValidationException');
+const env = require('../configuration_/EnvironmentWrapper');
+const TokenValidationException = require('../exceptions_/TokenValidationException');
 const { getSigningKey } = require('./LazyJwksClient');
 
 module.exports = class TokenValidator {

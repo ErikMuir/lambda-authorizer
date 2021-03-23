@@ -2,7 +2,7 @@ const { LambdaLogger } = require('@erikmuir/lambda-utils');
 const RequestValidator = require('./RequestValidator');
 const TokenValidator = require('./TokenValidator');
 const PolicyBuilder = require('./PolicyBuilder');
-const UnauthorizedException = require('../exceptions/UnauthorizedException');
+const UnauthorizedException = require('../exceptions_/UnauthorizedException');
 
 module.exports.authorize = request => {
   const logger = new LambdaLogger('AuthorizerFacade');
