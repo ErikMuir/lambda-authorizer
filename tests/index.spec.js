@@ -22,7 +22,7 @@ describe('index', () => {
     const context = { foo: 'bar' };
     const token = 'Bearer xyz';
     const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-    const apiGatewayArn = new ApiGatewayArn(stringArn);
+    const apiGatewayArn = ApiGatewayArn.parse(stringArn);
     const principalId = 'user-123';
     const scope = 'scope-abc';
 
