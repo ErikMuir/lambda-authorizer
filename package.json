@@ -4,7 +4,7 @@
   "description": "AWS API Gateway Custom Lambda Authorizer for NodeJS",
   "main": "./src/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && babel ./src --out-dir ./dist --source-maps --copy-files",
+    "clean-install": "rm -rf node_modules && rm package-lock.json && npm i",
     "test": "jest ./tests"
   },
   "repository": {

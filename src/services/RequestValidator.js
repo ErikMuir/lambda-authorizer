@@ -38,11 +38,7 @@ function validateRequest(request) {
       try {
         apiGatewayArn = ApiGatewayArn.parse(methodArn);
       } catch (e) {
-        if (e instanceof ApiGatewayArnException) {
-          errors.push(`Could not parse "methodArn": "${methodArn}".`);
-        } else {
-          throw e;
-        }
+        errors.push(`Could not parse "methodArn": "${methodArn}".`);
       }
     }
   }

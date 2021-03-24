@@ -3,19 +3,19 @@ const ApiGatewayArnException = require('../../src/exceptions/ApiGatewayArnExcept
 const { testUtils: { expectError } } = require('@erikmuir/node-utils');
 
 describe('ApiGatewayArn', () => {
-  const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-  const objectArn = {
-    partition: 'partition',
-    service: 'service',
-    region: 'region',
-    awsAccountId: 'aws-account-id',
-    restApiId: 'rest-api-id',
-    stage: 'stage',
-    verb: 'verb',
-    resource: 'path/to/resource',
-  };
+  const stringArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/resource';
 
   describe('constructor', () => {
+    const objectArn = {
+      partition: 'partition',
+      service: 'service',
+      region: 'region',
+      awsAccountId: 'aws-account-id',
+      restApiId: 'rest-api-id',
+      stage: 'stage',
+      verb: 'verb',
+      resource: 'resource',
+    };
     const actual = new ApiGatewayArn(objectArn);
 
     test('sets partition', () => {
@@ -47,44 +47,60 @@ describe('ApiGatewayArn', () => {
     });
 
     test('sets resource', () => {
-      expect(actual.resource).toBe('path/to/resource');
+      expect(actual.resource).toBe('resource');
     });
   });
 
   describe('static parse', () => {
-    describe('returns new instance of ApiGatewayArn', () => {
-      const actual = ApiGatewayArn.parse(stringArn);
+    const actual = ApiGatewayArn.parse(stringArn);
 
-      test('sets partition', () => {
-        expect(actual.partition).toBe('partition');
+    test('sets partition', () => {
+      expect(actual.partition).toBe('partition');
+    });
+
+    test('sets service', () => {
+      expect(actual.service).toBe('service');
+    });
+
+    test('sets region', () => {
+      expect(actual.region).toBe('region');
+    });
+
+    test('sets awsAccountId', () => {
+      expect(actual.awsAccountId).toBe('aws-account-id');
+    });
+
+    test('sets restApiId', () => {
+      expect(actual.restApiId).toBe('rest-api-id');
+    });
+
+    test('sets stage', () => {
+      expect(actual.stage).toBe('stage');
+    });
+
+    test('sets verb', () => {
+      expect(actual.verb).toBe('verb');
+    });
+
+    describe('sets resource', () => {
+      test('without a path', () => {
+        expect(actual.resource).toBe('resource');
       });
 
-      test('sets service', () => {
-        expect(actual.service).toBe('service');
+      test('with a path', () => {
+        const stringArnWithPath = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
+
+        const actualWithPath = ApiGatewayArn.parse(stringArnWithPath);
+
+        expect(actualWithPath.resource).toBe('path/to/resource');
       });
 
-      test('sets region', () => {
-        expect(actual.region).toBe('region');
-      });
+      test('as empty string', () => {
+        const stringArnWithoutResource = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb';
 
-      test('sets awsAccountId', () => {
-        expect(actual.awsAccountId).toBe('aws-account-id');
-      });
+        const actualWithoutResource = ApiGatewayArn.parse(stringArnWithoutResource);
 
-      test('sets restApiId', () => {
-        expect(actual.restApiId).toBe('rest-api-id');
-      });
-
-      test('sets stage', () => {
-        expect(actual.stage).toBe('stage');
-      });
-
-      test('sets verb', () => {
-        expect(actual.verb).toBe('verb');
-      });
-
-      test('sets resource', () => {
-        expect(actual.resource).toBe('path/to/resource');
+        expect(actualWithoutResource.resource).toBe('');
       });
     });
 

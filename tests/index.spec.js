@@ -72,7 +72,7 @@ describe('index', () => {
       new TokenValidationException(),
       new UnauthorizedException(),
     ].forEach(error => {
-      test(`when ${error.name} is thrown, then throws new unauthorized exception`, async () => {
+      test(`when ${error.name} is thrown, then throws new UnauthorizedException`, async () => {
         validateToken.mockImplementation(() => { throw error; });
 
         try {

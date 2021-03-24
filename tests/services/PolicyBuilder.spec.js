@@ -7,8 +7,8 @@ const PolicyStatement = require('../../src/models/PolicyStatement');
 const PolicyBuilderException = require('../../src/exceptions/PolicyBuilderException');
 const { PrimitiveMap, testUtils: { expectError } } = require('@erikmuir/node-utils');
 
-const _arnString = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-const _apiGatewayArn = ApiGatewayArn.parse(_arnString);
+const arnString = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
+const apiGatewayArn = ApiGatewayArn.parse(arnString);
 
 describe('PolicyBuilder', () => {
   let testObject;
@@ -85,6 +85,38 @@ describe('PolicyBuilder', () => {
 
       test('throws when attempting to set to something other than a string', () => {
         const action = () => (testObject.usageIdentifierKey = 42);
+        const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
+        expectError(action, assertions);
+      });
+    });
+
+    describe('allowMethodArns', () => {
+      test('cannot be set', () => {
+        const action = () => (testObject.allowMethodArns = ['arn']);
+        const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
+        expectError(action, assertions);
+      });
+    });
+
+    describe('denyMethodArns', () => {
+      test('cannot be set', () => {
+        const action = () => (testObject.denyMethodArns = ['arn']);
+        const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
+        expectError(action, assertions);
+      });
+    });
+
+    describe('statements', () => {
+      test('cannot be set', () => {
+        const action = () => (testObject.statements = [{}]);
+        const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
+        expectError(action, assertions);
+      });
+    });
+
+    describe('context', () => {
+      test('cannot be set', () => {
+        const action = () => (testObject.context = [{}]);
         const assertions = e => expect(e).toBeInstanceOf(PolicyBuilderException);
         expectError(action, assertions);
       });
@@ -184,18 +216,35 @@ describe('PolicyBuilder', () => {
     });
 
     describe('build', () => {
-      test('does not populate statments when apiGatewayArn is not set', () => {
-        testObject.allowAllMethods();
-        testObject.build();
-        expect(testObject.statements).toEqual([]);
-      });
+      describe('statements', () => {
+        test('when apiGatewayArn is not set', () => {
+          testObject.allowAllMethods();
+          testObject.build();
+          expect(testObject.statements).toEqual([]);
+        });
 
-      test('populates statements when apiGatewayArn is set', () => {
-        testObject.apiGatewayArn = _apiGatewayArn;
-        testObject.allowAllMethods();
-        testObject.build();
-        expect(testObject.statements.length).toBe(1);
-        expect(testObject.statements[0]).toBeInstanceOf(PolicyStatement);
+        test('when apiGatewayArn is set', () => {
+          testObject.apiGatewayArn = apiGatewayArn;
+          testObject.allowAllMethods();
+          testObject.build();
+          expect(testObject.statements.length).toBe(1);
+          expect(testObject.statements[0]).toBeInstanceOf(PolicyStatement);
+        });
+
+        test('when apiGatewayArn is missing some fields', () => {
+          const slimArnObject = {
+            partition: 'partition',
+            service: 'service',
+            awsAccountId: 'aws-account-id',
+          };
+          const slimArn = new ApiGatewayArn(slimArnObject);
+          const expected = `arn:partition:service:*:aws-account-id:*/*/*/*`;
+          testObject.apiGatewayArn = slimArn;
+          testObject.allowAllMethods();
+          testObject.build();
+          const statement = testObject.statements[0];
+          expect(statement.Resource[0]).toBe(expected);
+        });
       });
 
       test('returns principalId', () => {
@@ -225,7 +274,7 @@ describe('PolicyBuilder', () => {
         const expectedArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/*/*';
         const expectedStatement = new PolicyStatement({ effect: Effect.allow, arn: expectedArn });
         const expectedDocument = new PolicyDocument([expectedStatement]);
-        testObject.apiGatewayArn = _apiGatewayArn;
+        testObject.apiGatewayArn = apiGatewayArn;
         testObject.allowAllMethods();
         const policy = testObject.build();
         expect(policy.policyDocument).toEqual(expectedDocument);

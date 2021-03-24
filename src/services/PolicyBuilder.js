@@ -190,8 +190,6 @@ module.exports = class PolicyBuilder {
         return this._denyMethodArns;
       case Effect.allow:
         return this._allowMethodArns;
-      default:
-        throw new PolicyBuilderException('Invalid effect.');
     }
   }
 }
