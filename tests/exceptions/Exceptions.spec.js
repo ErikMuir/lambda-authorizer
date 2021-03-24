@@ -57,14 +57,14 @@ describe('exceptions', () => {
 
     expect(err instanceof TokenValidationException).toBe(true);
     expect(TokenValidationException.prototype.isPrototypeOf(err)).toBe(true);
-    expect(err instanceof UnauthorizedException).toBe(true);
-    expect(UnauthorizedException.prototype.isPrototypeOf(err)).toBe(true);
+    expect(err instanceof BaseException).toBe(true);
+    expect(BaseException.prototype.isPrototypeOf(err)).toBe(true);
     expect(err instanceof Error).toBe(true);
     expect(Error.prototype.isPrototypeOf(err)).toBe(true);
     expect(err.constructor.name).toBe('TokenValidationException');
     expect(err.name).toBe('TokenValidationException');
-    expect(err.message).toBe('Unauthorized');
-    expect(err.toString()).toBe('TokenValidationException: Unauthorized');
+    expect(err.message).toBe('foobar');
+    expect(err.toString()).toBe('TokenValidationException: foobar');
     expect(err.stack).toBeDefined();
   });
 
@@ -83,18 +83,18 @@ describe('exceptions', () => {
   });
 
   test('RequestValidationException', () => {
-    const err = new RequestValidationException();
+    const err = new RequestValidationException('foobar');
 
     expect(err instanceof RequestValidationException).toBe(true);
     expect(RequestValidationException.prototype.isPrototypeOf(err)).toBe(true);
-    expect(err instanceof UnauthorizedException).toBe(true);
-    expect(UnauthorizedException.prototype.isPrototypeOf(err)).toBe(true);
+    expect(err instanceof BaseException).toBe(true);
+    expect(BaseException.prototype.isPrototypeOf(err)).toBe(true);
     expect(err instanceof Error).toBe(true);
     expect(Error.prototype.isPrototypeOf(err)).toBe(true);
     expect(err.constructor.name).toBe('RequestValidationException');
     expect(err.name).toBe('RequestValidationException');
-    expect(err.message).toBe('Unauthorized');
-    expect(err.toString()).toBe('RequestValidationException: Unauthorized');
+    expect(err.message).toBe('foobar');
+    expect(err.toString()).toBe('RequestValidationException: foobar');
     expect(err.stack).toBeDefined();
   });
 });

@@ -1,5 +1,5 @@
 const Effect = require('../../src/models/Effect');
-const { testUtils } = require('@erikmuir/node-utils');
+const { testUtils: { expectError } } = require('@erikmuir/node-utils');
 
 describe('Effect', () => {
   describe('allow', () => {
@@ -14,7 +14,7 @@ describe('Effect', () => {
         expect(e.message).toContain('Cannot set property allow');
       };
 
-      testUtils.expectError(action, assertions);
+      expectError(action, assertions);
     });
   });
 
@@ -30,7 +30,7 @@ describe('Effect', () => {
         expect(e.message).toContain('Cannot set property deny');
       };
 
-      testUtils.expectError(action, assertions);
+      expectError(action, assertions);
     });
   });
 });

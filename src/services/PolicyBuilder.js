@@ -1,10 +1,10 @@
-const HttpVerb = require('../models/HttpVerb');
-const Effect = require('../models/Effect');
+const { PrimitiveMap } = require('@erikmuir/node-utils');
+const PolicyBuilderException = require('../exceptions/PolicyBuilderException');
 const ApiGatewayArn = require('../models/ApiGatewayArn');
+const Effect = require('../models/Effect');
+const HttpVerb = require('../models/HttpVerb');
 const PolicyDocument = require('../models/PolicyDocument');
 const PolicyStatement = require('../models/PolicyStatement');
-const PolicyBuilderException = require('../exceptions/PolicyBuilderException');
-const { PrimitiveMap } = require('@erikmuir/node-utils');
 
 const _resourcePattern = new RegExp('^[/.a-zA-Z0-9-\\*]+$');
 const _allowedEffects = [Effect.allow, Effect.deny];
@@ -27,8 +27,7 @@ module.exports = class PolicyBuilder {
     this._allowMethodArns = [];
     this._denyMethodArns = [];
     this._statements = [];
-
-    this.context = new PrimitiveMap();
+    this._context = new PrimitiveMap();
   }
 
   get apiGatewayArn() {
@@ -88,6 +87,14 @@ module.exports = class PolicyBuilder {
     throw new PolicyBuilderException('statements cannot be set directly.');
   }
 
+  get context() {
+    return this._context;
+  }
+
+  set context(val) {
+    throw new PolicyBuilderException('context cannot be set directly.');
+  }
+
   allowMethod(verb, resource) {
     this.addMethod(Effect.allow, verb, resource);
   }
@@ -126,7 +133,7 @@ module.exports = class PolicyBuilder {
     return {
       principalId: this._principalId,
       policyDocument: new PolicyDocument(this._statements),
-      context: this.context.toObject(),
+      context: this._context.toObject(),
       usageIdentifierKey: this._usageIdentifierKey,
     };
   }

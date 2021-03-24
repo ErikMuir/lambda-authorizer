@@ -1,8 +1,8 @@
-const UnauthorizedException = require('./UnauthorizedException');
+const BaseException = require('./BaseException');
 
-module.exports = class TokenValidationException extends UnauthorizedException {
-  constructor() {
-    super();
+module.exports = class TokenValidationException extends BaseException {
+  constructor(message) {
+    super(message);
     this.name = 'TokenValidationException';
   }
 }

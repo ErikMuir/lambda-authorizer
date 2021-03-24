@@ -1,41 +1,23 @@
-const jwt = require('jsonwebtoken');
-const RequestValidator = require('../../src/services/RequestValidator');
+const { validateRequest } = require('../../src/services/RequestValidator');
 const RequestValidationException = require('../../src/exceptions/RequestValidationException');
 const ApiGatewayArn = require('../../src/models/ApiGatewayArn');
-
-jest.mock('@erikmuir/lambda-utils/src/utilities/LambdaLogger');
-jest.mock('jsonwebtoken');
 
 describe('RequestValidator', () => {
   const type = 'TOKEN';
   const authorizationToken = 'Bearer xyz';
   const methodArn = 'arn:partition:service:region:aws-account-id:rest-api-id/stage/verb/path/to/resource';
-  const mockDecode = jwt.decode;
 
-  beforeEach(() => {
-    mockDecode.mockReturnValue('foobar');
-  });
+  describe('validateRequest', () => {
+    test('returns response', () => {
+      const request = { type, authorizationToken, methodArn };
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+      const actual = validateRequest(request);
 
-  describe('validate', () => {
-    describe('does not throw', () => {
-      test('when type, authorizationToken, and methodArn are valid', () => {
-        const request = { type, authorizationToken, methodArn };
-        const validator = new RequestValidator(request);
-
-        try {
-          validator.validate();
-
-          expect(true).toBe(true);
-        } catch (e) {
-          expect(true).toBe(false); // should never happen
-        }
-      });
+      expect(actual).toBeDefined();
+      expect(actual.token).toBe('xyz');
+      expect(actual.apiGatewayArn).toBeInstanceOf(ApiGatewayArn);
     });
-    
+
     describe('throws RequestValidationException', () => {
       [
         { request: undefined, desc: 'when request is undefined' },
@@ -48,43 +30,15 @@ describe('RequestValidator', () => {
         { request: { type, authorizationToken, methodArn: 'bad-arn' }, desc: 'when methodArn cannot be parsed' },
       ].forEach(({ request, desc }) => {
         test(desc, () => {
-          const validator = new RequestValidator(request);
-
           try {
-            validator.validate();
+            validateRequest(request);
 
             expect(true).toBe(false); // should never happen
           } catch (e) {
-            expect(e instanceof RequestValidationException).toBe(true);
+            expect(e).toBeInstanceOf(RequestValidationException);
           }
         });
       });
-
-      test('when authorizationToken cannot be jwt decoded', () => {
-        const request = { type, authorizationToken, methodArn };
-        const validator = new RequestValidator(request);
-        mockDecode.mockReturnValue(null);
-
-        try {
-          validator.validate();
-
-          expect(true).toBe(false); // should never happen
-        } catch (e) {
-          expect(e instanceof RequestValidationException).toBe(true);
-        }
-      });
     });
-  });
-
-  test('apiGatewayArn getter', () => {
-    const request = { type, authorizationToken, methodArn };
-    const validator = new RequestValidator(request);
-    validator.validate();
-
-    const apiGatewayArn = validator.apiGatewayArn;
-
-    expect(apiGatewayArn).toBeDefined();
-    expect(apiGatewayArn instanceof ApiGatewayArn).toBe(true);
-    expect(apiGatewayArn.toString()).toBe(methodArn);
   });
 });
