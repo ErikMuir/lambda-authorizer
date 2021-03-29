@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "scripts": {
     "clean-install": "rm -rf node_modules && rm package-lock.json && npm i",
-    "test": "jest ./tests"
+    "test": "jest ./tests",
+    "test:coverage": "jest --ci --coverage ./tests && codecov --token=de5a948a-80c9-488b-8339-383789b86013"
   },
   "repository": {
     "type": "git",
