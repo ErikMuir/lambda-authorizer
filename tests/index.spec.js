@@ -1,3 +1,4 @@
+const { expectError } = require('@erikmuir/node-utils/src/utilities/test-utils');
 const { LogEnv } = require('@erikmuir/lambda-utils');
 const { handler } = require('../src/index');
 const ApiGatewayArnException = require('../src/exceptions/ApiGatewayArnException');
@@ -74,14 +75,10 @@ describe('index', () => {
     ].forEach(error => {
       test(`when ${error.name} is thrown, then throws new UnauthorizedException`, async () => {
         validateToken.mockImplementation(() => { throw error; });
+        const action = async () => await handler();
+        const assertions = e => expect(e).toBeInstanceOf(UnauthorizedException);
 
-        try {
-          await handler();
-
-          expect(true).toBe(false); // should never happen
-        } catch (e) {
-          expect(e).toBeInstanceOf(UnauthorizedException);
-        }
+        expectError(action, assertions);
       });
     });
 

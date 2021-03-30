@@ -1,6 +1,7 @@
 const { validateRequest } = require('../../src/services/RequestValidator');
 const RequestValidationException = require('../../src/exceptions/RequestValidationException');
 const ApiGatewayArn = require('../../src/models/ApiGatewayArn');
+const { expectError } = require('@erikmuir/node-utils/src/utilities/test-utils');
 
 describe('RequestValidator', () => {
   const type = 'TOKEN';
@@ -30,13 +31,10 @@ describe('RequestValidator', () => {
         { request: { type, authorizationToken, methodArn: 'bad-arn' }, desc: 'when methodArn cannot be parsed' },
       ].forEach(({ request, desc }) => {
         test(desc, () => {
-          try {
-            validateRequest(request);
+          const action = () => validateRequest(request);
+          const assertions = e => expect(e).toBeInstanceOf(RequestValidationException);
 
-            expect(true).toBe(false); // should never happen
-          } catch (e) {
-            expect(e).toBeInstanceOf(RequestValidationException);
-          }
+          expectError(action, assertions);
         });
       });
     });

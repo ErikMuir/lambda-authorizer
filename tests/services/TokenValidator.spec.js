@@ -1,3 +1,4 @@
+const { expectError } = require('@erikmuir/node-utils/src/utilities/test-utils');
 const jwt = require('jsonwebtoken');
 const { validateToken } = require('../../src/services/TokenValidator');
 const { lazyJwksClient } = require('../../src/services/LazyJwksClient');
@@ -124,13 +125,10 @@ describe('TokenValidator', () => {
     test('throws TokenValidationException', async () => {
       jwt.decode.mockImplementation(() => { throw new Error(); });
 
-      try {
-        await validateToken(token);
+      const action = async () => await validateToken(token);
+      const assertions = e => expect(e).toBeInstanceOf(TokenValidationException);
 
-        expect(true).toBe(false);
-      } catch (e) {
-        expect(e).toBeInstanceOf(TokenValidationException);
-      }
+      expectError(action, assertions);
     });
   });
 });
